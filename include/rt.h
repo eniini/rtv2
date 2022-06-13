@@ -6,7 +6,7 @@
 /*   By: eniini <eniini@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 20:58:49 by esukava           #+#    #+#             */
-/*   Updated: 2022/06/14 00:02:46 by eniini           ###   ########.fr       */
+/*   Updated: 2022/06/14 00:29:56 by eniini           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ t_color		apply_texture(t_rt *rt, float scale, int cur_obj);
 t_fvector	read_3dvec(char *line);
 t_color		read_color(char *line);
 void		read_cam(t_rt *rt, char *line);
-void		read_objcount(t_rt *rt, char *line);
+void		read_objcount(t_rt *rt, char *line, t_fvector *values);
 
 void		read_file(t_rt *rt, char *argv);
 void		init_sphere(t_object *obj, t_fvector orig, float radius, t_color c);

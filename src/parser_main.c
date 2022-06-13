@@ -6,7 +6,7 @@
 /*   By: eniini <eniini@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 15:48:00 by eniini            #+#    #+#             */
-/*   Updated: 2022/06/13 23:48:17 by eniini           ###   ########.fr       */
+/*   Updated: 2022/06/14 00:27:21 by eniini           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ static void	read_file_cont(t_rt *rt, char *line, t_fvector *values)
 		if ((int)values->y == 0)
 			read_cam(rt, line);
 		else if ((int)values->y == 1)
-			read_objcount(rt, line);
+			read_objcount(rt, line, values);
 		else if ((int)values->y == 2 && line[0] == 'l' \
 			&& (uint)values->w < rt->lightcount)
 			init_light(rt, line, (int)values->w++);

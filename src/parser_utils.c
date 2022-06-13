@@ -6,12 +6,16 @@
 /*   By: eniini <eniini@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 19:38:04 by eniini            #+#    #+#             */
-/*   Updated: 2022/06/13 21:00:59 by eniini           ###   ########.fr       */
+/*   Updated: 2022/06/14 00:45:10 by eniini           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
+/*
+*	We're not handling floats here, instead clamping input to RGB scale and
+*	then turning that to a %.
+*/
 t_color	read_color(char *line)
 {
 	char	*ptr;
@@ -102,7 +106,26 @@ void	read_cam(t_rt *rt, char *line)
 	}
 }
 
-void	read_objcount(t_rt *rt, char *line)
+/*
+*	If no number of lights is defined, initialize one into camera's coordinates.
+*	Also lots of wrangling to make sure it does not break formatting checks
+*	later down the line.
+*	Individual light definitions down the line should be ignored with this
+*	config as well.
+*/
+static void	deal_with_nolight(t_rt *rt, t_fvector *values)
+{
+	ft_printf("No lightcount given, defaulting to camera coordinates...\n");
+	rt->lightcount = 1;
+	values->w = 1;
+	rt->light = (t_object *)malloc(sizeof(t_object));
+	if (!rt->light)
+		ft_getout("Failed to allocate memory for default light!");
+	init_sphere(&rt->light[0], rt->cam.pos, 0.1f, (t_color){1, 1, 1});
+}
+
+//	Note: we are not dealing with a chance for malloc(0) here.
+void	read_objcount(t_rt *rt, char *line, t_fvector *values)
 {
 	char	*ptr;
 
@@ -115,12 +138,7 @@ void	read_objcount(t_rt *rt, char *line)
 	ptr = ft_strchr(line, ' ');
 	if (!ptr)
 	{
-		ft_printf("No lightcount given, defaulting to camera coordinates...\n");
-		rt->lightcount = 1;
-		rt->light = (t_object *)malloc(sizeof(t_object));
-		if (!rt->light)
-			ft_getout("Failed to allocate memory for default light!");
-		init_sphere(&rt->light[0], rt->cam.pos, 0.1f, (t_color){1, 1, 1});
+		deal_with_nolight(rt, values);
 		return ;
 	}
 	rt->lightcount = ft_atoi(ptr);
