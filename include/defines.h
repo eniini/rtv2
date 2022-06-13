@@ -6,7 +6,7 @@
 /*   By: eniini <eniini@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 20:56:17 by esukava           #+#    #+#             */
-/*   Updated: 2022/06/07 10:11:40 by eniini           ###   ########.fr       */
+/*   Updated: 2022/06/13 12:52:23 by eniini           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # define WIN_H	600
 # define WIN_HW 400
 # define WIN_HH 300
+# define FOV_D	75
+
 # define WIN_NAME	"esukava/eniini interactive raytracer ver. 0.25"
 
 # define ROUGHNESS		120.0f

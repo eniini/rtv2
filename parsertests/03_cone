@@ -1,0 +1,6 @@
+0,0,-2 0,0,0
+
+1
+
+** Direction of the cone's visible part is directly downwards
+v 0,-1,0 0,-1,-1 30 128,128,128

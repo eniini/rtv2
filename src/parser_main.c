@@ -6,24 +6,25 @@
 /*   By: eniini <eniini@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 15:48:00 by eniini            #+#    #+#             */
-/*   Updated: 2022/06/02 17:46:09 by eniini           ###   ########.fr       */
+/*   Updated: 2022/06/13 23:48:17 by eniini           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-static void	init_light(t_rt *rt, char *line)
+static void	init_light(t_rt *rt, char *line, int light_n)
 {
 	char		*ptr;
+	t_color		color;
 	t_fvector	pos;
 
 	ptr = (line + 2);
 	pos = read_3dvec(ptr);
 	ptr = ft_strchr(ptr, ' ');
 	if (!ptr)
-		ft_getout("excplicitly defined light needs color definition");
-	rt->light.pos = pos;
-	rt->light.color = read_color(ptr);
+		ft_getout("Excplicitly defined light needs color definition!");
+	color = read_color(ptr);
+	init_sphere(&rt->light[light_n], pos, 0.2f, color);
 }
 
 /*
@@ -110,8 +111,9 @@ static void	read_file_cont(t_rt *rt, char *line, t_fvector *values)
 			read_cam(rt, line);
 		else if ((int)values->y == 1)
 			read_objcount(rt, line);
-		else if ((int)values->y == 2 && line[0] == 'l')
-			init_light(rt, line);
+		else if ((int)values->y == 2 && line[0] == 'l' \
+			&& (uint)values->w < rt->lightcount)
+			init_light(rt, line, (int)values->w++);
 		else if ((int)values->y == 2 && (uint)values->z < rt->objcount)
 		{
 			if (line[0] == 's' || line[0] == 'p' \
@@ -137,6 +139,7 @@ static void	read_file_cont(t_rt *rt, char *line, t_fvector *values)
 *	values.x = (int)file decriptor
 *	values.y = section
 *	values.z = obj_i;
+*	values.w = light_i;
 */
 void	read_file(t_rt *rt, char *argv)
 {
@@ -150,4 +153,9 @@ void	read_file(t_rt *rt, char *argv)
 		read_file_cont(rt, line, &values);
 	if (close((int)values.x))
 		ft_getout(strerror(errno));
+	if ((uint)values.z != rt->objcount)
+		ft_getout("Missing object definition(s)!");
+	if ((uint)values.w != rt->lightcount)
+		ft_getout("Missing light definition(s)!");
+	init_cam(rt, v_sub(rt->cam.pos, rt->cam.dir), (4.0f / 3.0f), FOV_D);
 }

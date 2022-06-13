@@ -1,0 +1,11 @@
+**	Check for light to be calculated only after applying transformations.
+0,0,-2 0,0,0
+
+2
+
+s 0,0,0 0,0,0 0.25 75,75,255
+s 0,0,0 0,0,0 0.25 255,75,75
+l 2,2,0 75,255,75
+
+t 0 -1,0,0
+t 1 1,0,0

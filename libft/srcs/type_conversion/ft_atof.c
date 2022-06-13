@@ -6,7 +6,7 @@
 /*   By: eniini <eniini@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 14:55:31 by eniini            #+#    #+#             */
-/*   Updated: 2022/05/28 14:13:15 by eniini           ###   ########.fr       */
+/*   Updated: 2022/06/09 15:38:17 by eniini           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static long double	ft_atof_dec(const char *str, int i)
 	exp = 0;
 	ret = 0.0;
 	j = i;
-	while (str[j] != '\0' && (str[j] >= 48 && str[j] <= 57))
+	while (str[j] != '\0' && (str[j] >= '0' && str[j] <= '9'))
 	{
 		exp++;
 		j++;
@@ -59,11 +59,11 @@ long double	ft_atof(const char *str)
 		negcoef = -1;
 	if (str[i] == '+' || str[i] == '-')
 		i++;
-	if (str[i] < 48 || str[i] > 57)
+	if (str[i] < '0' || str[i] > '9')
 		return (0);
-	while (str[i] != '\0' && (str[i] >= 48 && str[i] <= 57))
+	while (str[i] != '\0' && (str[i] >= '0' && str[i] <= '9'))
 	{
-		res = res * 10 + (str[i] - 48);
+		res = res * 10 + (str[i] - '0');
 		i++;
 	}
 	if (str[i] == '.')

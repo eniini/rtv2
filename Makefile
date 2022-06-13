@@ -7,24 +7,24 @@ LFLAGS	=	-Wall -Wextra -O3 -g #-Werror
 #sources & object files
 SRC_DIR =	./src/
 OBJ_DIR =	./build/
-SRC_LIST = draw_pixel.c \
-		main.c \
-		keyevents.c \
-		v_util_1.c \
-		v_util_2.c \
-		ray_intersect.c \
-		ray_cast_util.c \
-		vector_rotation.c \
-		raytracer.c \
-		grayscale.c \
-		bmp_screencap.c \
+SRC_LIST = camera.c \
 		color_manip.c \
-		textures.c \
+		draw_utils.c \
+		grayscale.c \
+		keyevents.c \
+		main.c \
 		parser_main.c \
 		parser_utils.c \
 		parser_shapes.c \
 		parser_rotations.c \
-		parser_matops.c
+		parser_matops.c \
+		ray_intersect.c \
+		ray_util.c \
+		ray_trace.c \
+		screencap.c \
+		textures.c \
+		v_util_1.c \
+		v_util_2.c
 SRCS = $(addprefix $(SRC_DIR),$(SRC_LIST))
 OBJS = $(addprefix $(OBJ_DIR),$(SRC_LIST:.c=.o))
 

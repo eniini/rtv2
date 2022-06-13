@@ -6,7 +6,7 @@
 /*   By: eniini <eniini@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 20:58:49 by esukava           #+#    #+#             */
-/*   Updated: 2022/06/02 17:18:33 by eniini           ###   ########.fr       */
+/*   Updated: 2022/06/14 00:02:46 by eniini           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@ typedef struct s_ray{
 typedef struct s_cam{
 	t_fvector	pos;
 	t_fvector	dir;
-	t_fvector	rot;
+	t_fvector	h;
+	t_fvector	v;
+	t_fvector	start;
 }				t_cam;
 
 //Holds everything related directly to SDL's drawbuffer.
@@ -73,9 +75,11 @@ typedef struct s_rt {
 	float		uv_v;
 	t_object	*object;
 	uint		objcount;
-	t_object	light;
-	t_color		colors[10];
+	t_object	*light;
+	uint		lightcount;
 	t_bool		is_grayscale;
+	t_color		lightcolor;
+	uint		shadow_lvl;
 }				t_rt;
 
 void		draw_pixel(uint32_t x, uint32_t y, t_buffer *buf, uint32_t color);
@@ -117,6 +121,7 @@ t_color		col_lerp(t_color c1, t_color c2, float p);
 t_color		col_blend(t_color base, t_color mix, float p);
 t_color		col_multiply(t_color color, float m);
 t_color		col_add(t_color base, t_color mix, float p);
+t_color		col_sub(t_color base, t_color mix, float p);
 //texturing
 void		uv_map(t_rt *rt, t_ray *ray, int cur_obj);
 t_color		apply_check_pattern(t_rt *rt, float scale, int cur_obj, t_color oc);
@@ -139,4 +144,5 @@ t_mat4		mm_init_translation(float x, float y, float z);
 t_fvector	mm_multiply_vector(t_fvector v, t_mat4 m);
 t_mat4		mm_multiply_matrix(t_mat4 ma, t_mat4 mb);
 
+void		init_cam(t_rt *rt, t_fvector camdir, float ar, float vfov);
 #endif

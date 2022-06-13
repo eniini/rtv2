@@ -6,7 +6,7 @@
 /*   By: eniini <eniini@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 21:15:23 by esukava           #+#    #+#             */
-/*   Updated: 2022/05/29 15:29:03 by eniini           ###   ########.fr       */
+/*   Updated: 2022/06/09 15:18:46 by eniini           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ t_fvector	v_normalize(t_fvector v)
 	float		l;
 
 	l = v_len(v);
+	if (l == 0.0f)
+		return (v);
 	ret.x = v.x / l;
 	ret.y = v.y / l;
 	ret.z = v.z / l;

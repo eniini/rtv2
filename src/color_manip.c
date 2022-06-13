@@ -6,24 +6,11 @@
 /*   By: eniini <eniini@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 21:21:54 by eniini            #+#    #+#             */
-/*   Updated: 2022/06/07 22:49:38 by eniini           ###   ########.fr       */
+/*   Updated: 2022/06/13 12:53:21 by eniini           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
-
-//convert t_color to ARGB uint for SDL pixel painting
-uint32_t	col_to_uint(t_color color)
-{
-	uint8_t	ir;
-	uint8_t	ig;
-	uint8_t	ib;
-
-	ir = (uint8_t)(255 * ft_clamp_d(color.red, 0.0f, 1.0f));
-	ig = (uint8_t)(255 * ft_clamp_d(color.green, 0.0f, 1.0f));
-	ib = (uint8_t)(255 * ft_clamp_d(color.blue, 0.0f, 1.0f));
-	return (255 << 24 | ir << 16 | ig << 8 | ib);
-}
 
 //linear interpolation of two t_color structs.
 t_color	col_lerp(t_color c1, t_color c2, float p)
@@ -83,5 +70,24 @@ t_color	col_add(t_color base, t_color mix, float p)
 	result.red = ft_clamp_d(base.red + (p * mix.red), 0.0f, 1.0f);
 	result.green = ft_clamp_d(base.green + (p * mix.green), 0.0f, 1.0f);
 	result.blue = ft_clamp_d(base.blue + (p * mix.blue), 0.0f, 1.0f);
+	return (result);
+}
+
+t_color	col_sub(t_color base, t_color mix, float p)
+{
+	t_color	result;
+
+	if (p == 0.0f)
+		return (base);
+	if (p == 1.0f)
+	{
+		result.red = ft_clamp_d(base.red - mix.red, 0.0f, 1.0f);
+		result.green = ft_clamp_d(base.green - mix.green, 0.0f, 1.0f);
+		result.blue = ft_clamp_d(base.blue - mix.blue, 0.0f, 1.0f);
+		return (result);
+	}
+	result.red = ft_clamp_d(base.red - (p * mix.red), 0.0f, 1.0f);
+	result.green = ft_clamp_d(base.green - (p * mix.green), 0.0f, 1.0f);
+	result.blue = ft_clamp_d(base.blue - (p * mix.blue), 0.0f, 1.0f);
 	return (result);
 }

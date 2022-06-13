@@ -1,29 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray_cast_util.c                                    :+:      :+:    :+:   */
+/*   ray_util.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eniini <eniini@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 21:13:52 by esukava           #+#    #+#             */
-/*   Updated: 2022/05/29 17:24:17 by eniini           ###   ########.fr       */
+/*   Updated: 2022/06/14 00:07:29 by eniini           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
+/*
+*	Note: working with sligtly smaller integers than actual window size seems
+*	to dismiss some rogue rendering artefacts.
+*/
 void	ray_trough_screen(t_rt *rt, int x, int y)
 {
-	t_ray		ret;
-	t_fvector	pixel;
+	float	u;
+	float	v;
+	t_ray	r;
 
-	ret.start = rt->cam.pos;
-	pixel.x = ft_d_lerp(-1.0, 1.0, (1.0f / WIN_W) * (x + 0.5));
-	pixel.y = ft_d_lerp(-0.75, 0.75, (1.0f / WIN_H) * (y + 0.5));
-	pixel.z = 1;
-	pixel = v_rot_xyz(pixel, rt->cam.rot);
-	ret.dir = v_normalize(pixel);
-	rt->ray_prime = ret;
+	u = ((float)x / (WIN_W - 1));
+	v = ((float)y / (WIN_H - 1));
+	r.start = rt->cam.pos;
+	r.dir = rt->cam.start;
+	r.dir = v_add(r.dir, v_mult(rt->cam.h, u));
+	r.dir = v_add(r.dir, v_mult(rt->cam.v, v));
+	r.dir = v_sub(r.dir, rt->cam.pos);
+	r.dir = v_normalize(r.dir);
+	rt->ray_prime = r;
 }
 
 t_fvector	find_object_normal(t_object *o, t_ray *ray)
@@ -83,10 +90,17 @@ void	quadratic_equation(t_fvector abc, float *t0, float *t1)
 
 t_bool	draw_light(t_rt *rt, float *t, int x, int y)
 {
-	if (ray_sphere_intersect(&rt->ray_prime, &rt->light, t))
+	uint	i;
+
+	i = 0;
+	while (i < rt->lightcount)
 	{
-		draw_pixel(x, y, &rt->rend.win_buffer, 0xFFFF00);
-		return (TRUE);
+		if (ray_sphere_intersect(&rt->ray_prime, &rt->light[i], t))
+		{
+			draw_pixel(x, y, &rt->rend.win_buffer, 0xFFFF00);
+			return (TRUE);
+		}
+		i++;
 	}
 	return (FALSE);
 }

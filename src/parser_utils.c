@@ -6,7 +6,7 @@
 /*   By: eniini <eniini@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 19:38:04 by eniini            #+#    #+#             */
-/*   Updated: 2022/06/07 23:15:08 by eniini           ###   ########.fr       */
+/*   Updated: 2022/06/13 21:00:59 by eniini           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,27 +90,43 @@ void	read_cam(t_rt *rt, char *line)
 		ft_getout("Invalid camera init! (Incorrect delimiter character)");
 	lookat = read_3dvec((ptr + 1));
 	rt->cam.pos = lookfrom;
-	rt->cam.rot = lookat;
+	rt->cam.dir = lookat;
 	rt->redraw = TRUE;
 	ptr = ft_strchr(ptr + 1, ' ');
 	if (ptr)
 		rt->amb_col = read_color(ptr);
 	else
 	{
-		ft_printf("no ambient light set!\n");
+		ft_printf("No ambient light set!\n");
 		rt->amb_col = (t_color){0, 0, 0};
 	}
-	rt->light.pos = rt->cam.pos;
-	rt->light.color = (t_color){1, 1, 1};
 }
 
 void	read_objcount(t_rt *rt, char *line)
 {
+	char	*ptr;
+
 	rt->objcount = ft_atoi(line);
-	ft_printf("objectcount: %u\n", rt->objcount);
 	if (!rt->objcount)
 		ft_getout("Invalid object count declaration!");
 	rt->object = (t_object *)malloc(sizeof(t_object) * rt->objcount);
 	if (!rt->object)
-		ft_getout("Failed to allocate memory for objects.");
+		ft_getout("Failed to allocate memory for objects!");
+	ptr = ft_strchr(line, ' ');
+	if (!ptr)
+	{
+		ft_printf("No lightcount given, defaulting to camera coordinates...\n");
+		rt->lightcount = 1;
+		rt->light = (t_object *)malloc(sizeof(t_object));
+		if (!rt->light)
+			ft_getout("Failed to allocate memory for default light!");
+		init_sphere(&rt->light[0], rt->cam.pos, 0.1f, (t_color){1, 1, 1});
+		return ;
+	}
+	rt->lightcount = ft_atoi(ptr);
+	if (rt->lightcount == 0)
+		ft_getout("Explicitly defined lightcount must be a nonzero value!");
+	rt->light = (t_object *)malloc(sizeof(t_object) * rt->lightcount);
+	if (!rt->light)
+		ft_getout("Failed to allocate memory for lights!");
 }

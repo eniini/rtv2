@@ -6,7 +6,7 @@
 /*   By: eniini <eniini@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 21:12:47 by esukava           #+#    #+#             */
-/*   Updated: 2022/06/07 23:50:08 by eniini           ###   ########.fr       */
+/*   Updated: 2022/06/13 23:53:14 by eniini           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ static void	cleanup(t_rt *rt)
 	SDL_DestroyWindow(rt->rend.win);
 	free(rt->rend.win_buffer.px);
 	free(rt->object);
+	free(rt->light);
 	SDL_Quit();
 }
 
