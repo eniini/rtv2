@@ -6,7 +6,7 @@
 /*   By: eniini <eniini@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 19:37:48 by eniini            #+#    #+#             */
-/*   Updated: 2022/05/29 18:03:49 by eniini           ###   ########.fr       */
+/*   Updated: 2022/06/17 00:02:28 by eniini           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static t_mat4	mm_init_rotationmatrix_z(float rad_angle)
 *	Apply rotation & translation values to the given [obj].
 *	Rotation values given in angles.
 */
-void	apply_3d_mods(t_object *obj, t_fvector r, t_fvector t)
+static void	apply_3d_mods(t_object *obj, t_fvector r, t_fvector t)
 {
 	t_mat4	result;
 	t_mat4	temp_1;
@@ -77,4 +77,11 @@ void	apply_3d_mods(t_object *obj, t_fvector r, t_fvector t)
 		result = mm_multiply_matrix(result, mm_init_translation(t.x, t.y, t.z));
 	obj->pos = mm_multiply_vector(obj->pos, result);
 	obj->dir = mm_multiply_vector(obj->dir, result);
+}
+
+void	init_3d_mods(t_rt *rt, uint obj_n, t_fvector	r, t_fvector t)
+{
+	if (obj_n >= rt->objcount)
+		ft_getout("Invalid pointer index! (value higher than object count)");
+	apply_3d_mods(&rt->object[obj_n], r, t);
 }

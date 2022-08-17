@@ -6,7 +6,7 @@
 /*   By: eniini <eniini@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 21:12:47 by esukava           #+#    #+#             */
-/*   Updated: 2022/06/13 23:53:14 by eniini           ###   ########.fr       */
+/*   Updated: 2022/06/18 15:22:21 by eniini           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,21 @@
 static void	init(t_rt *rt)
 {
 	if (SDL_Init(SDL_INIT_VIDEO) != 0)
-		exit(1);
+		ft_getout(SDL_GetError());
 	rt->rend.win = SDL_CreateWindow(WIN_NAME, SDL_WINDOWPOS_UNDEFINED, \
 		SDL_WINDOWPOS_UNDEFINED, WIN_W, WIN_H, 0);
 	if (!rt->rend.win)
-		exit(1);
+		ft_getout(SDL_GetError());
 	rt->rend.renderer = SDL_CreateRenderer(rt->rend.win, -1, \
 		SDL_RENDERER_ACCELERATED);
 	if (!rt->rend.renderer)
-		exit(1);
+		ft_getout(SDL_GetError());
 	rt->rend.win_tex = SDL_CreateTexture(rt->rend.renderer, \
 		SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, WIN_W, WIN_H);
 	if (!rt->rend.win_tex)
-		exit(1);
+		ft_getout(SDL_GetError());
 	rt->rend.run = TRUE;
 	rt->amb_col = (t_color){0, 0, 0};
-	rt->amb_int = 0.2f;
 }
 
 static void	cleanup(t_rt *rt)
@@ -95,12 +94,7 @@ int	main(int argc, char **argv)
 	rt.rend.win_buffer.h = WIN_H;
 	rt.rend.win_buffer.px = ft_memalloc(sizeof(uint32_t) * WIN_H * WIN_W);
 	if (!rt.rend.win_buffer.px)
-	{
-		write(1, "fail to malloc\n", 16);
-		rt.rend.win_buffer.px = NULL;
-		cleanup(&rt);
-		return (EXIT_FAILURE);
-	}
+		ft_getout("Failed to allocate memory for pixel buffers!");
 	init(&rt);
 	read_file(&rt, argv[1]);
 	while (rt.rend.run)

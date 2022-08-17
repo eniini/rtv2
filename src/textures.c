@@ -6,7 +6,7 @@
 /*   By: eniini <eniini@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 16:33:42 by eniini            #+#    #+#             */
-/*   Updated: 2022/06/08 00:21:22 by eniini           ###   ########.fr       */
+/*   Updated: 2022/06/17 00:17:43 by eniini           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ t_color	apply_check_pattern(t_rt *rt, float scale, int cur_obj, t_color oc)
 	t_bool	xresult;
 	t_bool	result;
 
+	if (rt->object[cur_obj].type != SPHERE && rt->object[cur_obj].type != PLANE)
+		return (oc);
 	if (rt->object[cur_obj].type == PLANE)
 		scale = 1.0f;
 	if (((rt->uv_v * scale) - floorf(rt->uv_v * scale)) < 0.5f)
@@ -70,14 +72,10 @@ static void	spherical_map(t_rt *rt, t_fvector hp, t_fvector pos)
 	rt->uv_v *= 0.5;
 }
 
-/*
-*	TODO: check plane normal against POV to correctly UV wrap planes facing
-*	the opposite direction or ones directly adjacent (swap z -> y).
-*/
 static void	planar_map(t_rt *rt, t_fvector hp)
 {
 	rt->uv_u = fmodf(hp.x, 1.0f);
-	rt->uv_v = fmodf(hp.z, 1.0f);
+	rt->uv_v = fmodf(hp.y, 1.0f);
 }
 
 /*

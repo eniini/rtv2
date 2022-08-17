@@ -6,7 +6,7 @@
 /*   By: eniini <eniini@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 12:59:25 by eniini            #+#    #+#             */
-/*   Updated: 2022/06/13 12:59:50 by eniini           ###   ########.fr       */
+/*   Updated: 2022/06/18 14:20:53 by eniini           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	init_cam(t_rt *rt, t_fvector camdir, float ar, float vfov)
 		vup = (t_fvector){0, 0, -1, 1};
 	rt->cam.h = v_mult(v_normalize(v_cross(vup, w)), ar * 2.0f * h);
 	rt->cam.v = v_mult(v_cross(w, v_normalize(v_cross(vup, w))), 2.0f * h);
-	rt->cam.start = v_sub(rt->cam.pos, v_div(rt->cam.h, 2.0f));
-	rt->cam.start = v_sub(rt->cam.start, v_div(rt->cam.v, 2.0f));
-	rt->cam.start = v_sub(rt->cam.start, w);
+	rt->cam.rt_start = v_sub(rt->cam.pos, v_div(rt->cam.h, 2.0f));
+	rt->cam.rt_start = v_sub(rt->cam.rt_start, v_div(rt->cam.v, 2.0f));
+	rt->cam.rt_start = v_sub(rt->cam.rt_start, w);
 }

@@ -6,7 +6,7 @@
 /*   By: eniini <eniini@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 20:41:45 by esukava           #+#    #+#             */
-/*   Updated: 2022/06/14 00:03:08 by eniini           ###   ########.fr       */
+/*   Updated: 2022/06/18 18:45:14 by eniini           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,13 @@
 static t_bool	in_shadow(t_rt *rt, t_ray light_ray, uint cur_obj)
 {
 	uint	i;
+	float	t;
 
 	i = 0;
 	while (i < rt->objcount && i != cur_obj)
 	{
-		rt->t = RAY_LIMIT;
-		if (ray_object_intersect(&light_ray, &rt->object[i], &rt->t))
+		t = RAY_LIMIT;
+		if (ray_object_intersect(&light_ray, &rt->object[i], &t))
 		{
 			return (TRUE);
 		}
@@ -30,13 +31,14 @@ static t_bool	in_shadow(t_rt *rt, t_ray light_ray, uint cur_obj)
 }
 
 /*
-*	Returns a vector representing the relfection direction given the
+*	[Phong] in this context means the refractive part of the shading style.
+*	[difference] is a vector representing the relfection direction given the
 *	incident (ray hitting a surface coming from a light source) [I] and surface
 *	normal [N] vectors.
 *	I - (2 * dot(N, I) * N).
-*	[Mat] is the current object material data.
-*	[lray] holds the direction of light and the hit point in question.
-*	[n] is the given object surface normal.
+*	Smaller angle between POV and light source to the hit point means more
+*	light is reflected to the camera. [ROUGHNESS] variable controls how refined
+*	the refraction is.
 */
 static t_color	assign_color(t_rt *rt, t_ray lray, t_fvector n, t_color mix)
 {
@@ -59,9 +61,6 @@ static t_color	assign_color(t_rt *rt, t_ray lray, t_fvector n, t_color mix)
 *	[Ray] is the point of interception between ray & [cur_obj].
 *	If a point is not directly illuminated or is in a shadow of another object,
 *	no new color is applied.
-*
-*	Note: rt->t exists to store length of the vector between interception point
-*	and the predetermined light source. Without light falloff etc. its not used.
 */
 static void	calculate_lighting(t_rt *rt, t_ray *ray, int cur_obj, t_color *c)
 {
@@ -79,7 +78,7 @@ static void	calculate_lighting(t_rt *rt, t_ray *ray, int cur_obj, t_color *c)
 		{
 			rt->lightcolor = col_blend(rt->lightcolor, rt->light[i].color, \
 				v_dot(n, dist));
-			*c = col_add(*c, rt->object[cur_obj].color, v_dot(n, dist));
+			*c = col_blend(*c, rt->object[cur_obj].color, v_dot(n, dist));
 		}
 		lr.start = v_add(ray->start, v_mult(n, 0.00001f));
 		lr.dir = dist;

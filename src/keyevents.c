@@ -6,7 +6,7 @@
 /*   By: eniini <eniini@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 21:12:37 by esukava           #+#    #+#             */
-/*   Updated: 2022/06/13 18:42:32 by eniini           ###   ########.fr       */
+/*   Updated: 2022/06/18 13:12:01 by eniini           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,6 @@ static void	check_keyevents(t_rt *rt, SDL_Event *e)
 		if (e->key.keysym.sym == SDLK_e)
 			rt->light[0].pos.y -= 0.1;
 	}
-	if (e->key.keysym.sym == SDLK_m && rt->amb_p < AMBIENT_MAX)
-		rt->amb_p += 0.05f;
-	if (e->key.keysym.sym == SDLK_n && rt->amb_p > AMBIENT_MIN)
-		rt->amb_p -= 0.05f;
-	if (e->key.keysym.sym == SDLK_v && rt->amb_int < AMBIENT_MAX)
-		rt->amb_int += 0.05f;
-	if (e->key.keysym.sym == SDLK_b && rt->amb_int > AMBIENT_MIN)
-		rt->amb_int -= 0.05f;
 }
 
 void	keyevent(t_rt *rt, SDL_Event *e)

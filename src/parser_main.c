@@ -6,10 +6,12 @@
 /*   By: eniini <eniini@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 15:48:00 by eniini            #+#    #+#             */
-/*   Updated: 2022/06/14 00:27:21 by eniini           ###   ########.fr       */
+/*   Updated: 2022/06/18 15:18:47 by eniini           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <fcntl.h>
+#include <errno.h>
 #include "rt.h"
 
 static void	init_light(t_rt *rt, char *line, int light_n)
@@ -93,7 +95,7 @@ static void	init_mod(t_rt *rt, char *line)
 	}
 	else
 		ft_getout("Invalid modifier type declaration!");
-	apply_3d_mods(&rt->object[obj_n], rot_values, tra_values);
+	init_3d_mods(rt, (uint)obj_n, rot_values, tra_values);
 }
 
 /*

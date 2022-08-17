@@ -6,7 +6,7 @@
 /*   By: eniini <eniini@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/20 21:13:52 by esukava           #+#    #+#             */
-/*   Updated: 2022/06/14 00:07:29 by eniini           ###   ########.fr       */
+/*   Updated: 2022/06/18 14:21:55 by eniini           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ray_trough_screen(t_rt *rt, int x, int y)
 	u = ((float)x / (WIN_W - 1));
 	v = ((float)y / (WIN_H - 1));
 	r.start = rt->cam.pos;
-	r.dir = rt->cam.start;
+	r.dir = rt->cam.rt_start;
 	r.dir = v_add(r.dir, v_mult(rt->cam.h, u));
 	r.dir = v_add(r.dir, v_mult(rt->cam.v, v));
 	r.dir = v_sub(r.dir, rt->cam.pos);

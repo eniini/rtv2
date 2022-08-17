@@ -6,28 +6,23 @@
 /*   By: eniini <eniini@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 20:56:17 by esukava           #+#    #+#             */
-/*   Updated: 2022/06/13 12:52:23 by eniini           ###   ########.fr       */
+/*   Updated: 2022/06/18 18:46:54 by eniini           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DEFINES_H
 # define DEFINES_H
 
-//WINDOW
 # define WIN_W	800
 # define WIN_H	600
-# define WIN_HW 400
-# define WIN_HH 300
-# define FOV_D	75
+# define WIN_NAME	"esukava/eniini interactive raytracer ver. 2.0"
 
-# define WIN_NAME	"esukava/eniini interactive raytracer ver. 0.25"
+# define FOV_D	60
 
-# define ROUGHNESS		120.0f
 # define RAY_LIMIT		20000.0f
 # define RAY_DEPTH		3
-# define REFRAC_FALLOFF	5.0f
-# define AMBIENT_MIN	0.0f
-# define AMBIENT_MAX	1.0f
+
+# define ROUGHNESS		120.0f
 
 # define DEG_TO_RAD 0.01745329251
 # define RAD_TO_DEG 57.2957795131
